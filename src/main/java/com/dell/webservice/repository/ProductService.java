@@ -18,10 +18,18 @@ public class ProductService {
 	@Autowired
 	ProductRepository productRepository;
 	
-	public List<Product> getAllProduct(Integer pageNo, Integer pageSize, String sortBy){
+	public List<Product> getAllProduct(Integer pageNo, Integer pageSize, String sortBy, String productName){
 		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		 
         Page<Product> pagedResult = productRepository.findAll(paging);
+        
+         System.out.println(productName);
+         if(productName == null) {
+				pagedResult =  productRepository.findAll(paging);
+			}
+			else {
+				pagedResult =  productRepository.findByNameContaining(productName, paging);
+			}
          
         if(pagedResult.hasContent()) {
             return pagedResult.getContent();

@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dell.webservice.entity.Product;
-import com.dell.webservice.exception.InvalidProductException;
-import com.dell.webservice.exception.ProductNotFoundException;
-import com.dell.webservice.interfaces.ProductRepository;
 import com.dell.webservice.repository.ProductService;
 
 @RestController
@@ -31,10 +28,11 @@ public class ProductController {
 		@GetMapping("/products")
 		public ResponseEntity<?> getProducts(
 				 @RequestParam(defaultValue = "0") Integer pageNo, 
-                 @RequestParam(defaultValue = "10") Integer pageSize,
-                 @RequestParam(defaultValue = "id") String sortBy) {
+                 @RequestParam(defaultValue = "5") Integer pageSize,
+                 @RequestParam(defaultValue = "id") String sortBy,
+                 @RequestParam(required = false) String name) {
 				try {
-					List<Product> products = productService.getAllProduct(pageNo, pageSize, sortBy);
+					List<Product> products = productService.getAllProduct(pageNo, pageSize, sortBy,name);
 					return new ResponseEntity<List<Product>>(products, new HttpHeaders(), HttpStatus.OK);
 				}catch(Exception ex) {
 					return new ResponseEntity<String>("Unable to get products", new HttpHeaders(),HttpStatus.INTERNAL_SERVER_ERROR);
