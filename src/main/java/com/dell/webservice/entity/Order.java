@@ -36,7 +36,7 @@ public class Order {
 	@Column(name = "phoneNo")
 	private String phoneNo;
 	
-	@OneToMany(cascade=CascadeType.MERGE, fetch=FetchType.LAZY)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private Set<Product> products;
 
 	public Order() {
