@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "eorder")
+@Table(name = "order")
 public class Order {
 
 	@Id
@@ -36,7 +36,7 @@ public class Order {
 	@Column(name = "phoneNo")
 	private String phoneNo;
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToMany(cascade=CascadeType.MERGE, fetch=FetchType.LAZY)
 	private Set<Product> products;
 
 	public Order() {

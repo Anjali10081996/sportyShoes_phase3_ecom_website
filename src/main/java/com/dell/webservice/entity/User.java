@@ -30,22 +30,26 @@ public class User {
 	
 	@Column(name = "loggedIn")
 	private boolean loggedIn = false;
+	
+	@Column(name = "WalletBalance")
+	private double walletBalance;
 
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public User(String username, String password, String email, String role, boolean loggedIn) {
+	public User(String username, String password, String email, String role, boolean loggedIn, double walletBalance) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.role = role;
 		this.loggedIn = loggedIn;
+		this.walletBalance = walletBalance;
 	}
 
-	public User(int id, String username, String password, String email, String role, boolean loggedIn) {
+	public User(int id, String username, String password, String email, String role, boolean loggedIn, double walletBalance) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -53,6 +57,7 @@ public class User {
 		this.email = email;
 		this.role = role;
 		this.loggedIn = loggedIn;
+		this.walletBalance = walletBalance;
 	}
 
 
@@ -105,10 +110,18 @@ public class User {
 	}
 	
 
+	public double getWalletBalance() {
+		return walletBalance;
+	}
+
+	public void setWalletBalance(double walletBalance) {
+		this.walletBalance = walletBalance;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", role="
-				+ role + ", loggedIn=" + loggedIn + "]";
+				+ role + ", loggedIn=" + loggedIn + ", walletBalance=" + walletBalance + "]";
 	}	
 
 }
