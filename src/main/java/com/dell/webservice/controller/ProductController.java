@@ -101,7 +101,7 @@ public class ProductController {
 								return new ResponseEntity<String>("Product does not exist with id " + id,new HttpHeaders(), HttpStatus.NOT_FOUND);
 							}
 							this.productService.updateProduct(productObj);
-							return new ResponseEntity<Product>(new HttpHeaders(), HttpStatus.NO_CONTENT);
+							return new ResponseEntity<String>("Product is updated successfully",new HttpHeaders(), HttpStatus.OK);
 						}
 						else {
 							return new ResponseEntity<String>("Unauthorized Request",new HttpHeaders(), HttpStatus.UNAUTHORIZED);

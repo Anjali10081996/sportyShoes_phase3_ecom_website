@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dell.webservice.entity.Order;
 import com.dell.webservice.entity.Product;
+import com.dell.webservice.entity.User;
 import com.dell.webservice.repository.OrderService;
 import com.dell.webservice.repository.UserService;
 
@@ -28,6 +29,7 @@ public class OrderController {
 	
 	@Autowired
 	UserService userService; 
+
 	
 			@GetMapping("/orders")
 			public ResponseEntity<?> getOrder(
@@ -42,27 +44,23 @@ public class OrderController {
 					}
 			}
 			
-		//create a product
+		//create an order
 			@PostMapping("/orders")
-			public ResponseEntity<?> addOrder(@RequestBody(required = false) Order orderObj, @RequestParam(required = false) String userName){
+			public ResponseEntity<?> addOrder(@RequestBody(required = false) Order orderObj){
 				if(orderObj==null)
 				{
 					return new ResponseEntity<String>("Request body can not be empty", new HttpHeaders(), HttpStatus.BAD_REQUEST);
 				}
 				try {
-					boolean role = userService.checkAdmin(userName);
-					 if(role == true) {
-						 this.orderService.addOrder(orderObj);
-						 return new ResponseEntity<List<Product>>( new HttpHeaders(), HttpStatus.CREATED);
-					 }else {
-						 return new ResponseEntity<String>("Unauthorized Request",new HttpHeaders(), HttpStatus.UNAUTHORIZED);
-					 } 
+						 var userDetails = this.orderService.addOrder(orderObj);
+						 return new ResponseEntity<String>( "Total Balance: "+ orderObj.getTotalPrice()+"\n"+"wallet Balance : "+userDetails.getWalletBalance(), new HttpHeaders(), HttpStatus.CREATED);
+					
 				}catch(Exception ex) {
 					return new ResponseEntity<String>("Unable to add orders", new HttpHeaders(),HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 			}
 			
-			//update a order
+			//update an order
 					@PutMapping("/orders/{id}")
 					public ResponseEntity<?> updateOrder(@PathVariable("id") int id, @RequestBody(required = false) Order orderObj, @RequestParam(required = false) String userName){
 						if(orderObj==null)
@@ -93,7 +91,7 @@ public class OrderController {
 						}
 					}
 					
-					//delete order
+					//delete an order
 					@DeleteMapping("/orders/{id}")
 					public ResponseEntity<?> deleteOrder(@PathVariable("id") int id, @RequestParam(required = false) String userName){
 						try {

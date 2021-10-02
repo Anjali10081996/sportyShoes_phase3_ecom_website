@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 	@GetMapping("/")
 	public String indexMapping() {
-		return "Welcome to Sporty shoes Website";
+		return "Developed by Anjali Kumari Agrawal"+ "	" +"Welcome to sporty shoes";
 	}
 }

@@ -16,6 +16,8 @@ import com.dell.webservice.entity.User;
 import com.dell.webservice.interfaces.OrderRepository;
 import com.dell.webservice.interfaces.UserRepository;
 
+import springfox.documentation.spring.web.json.Json;
+
 @Service
 public class OrderService {
 	
@@ -44,8 +46,8 @@ public class OrderService {
 	}
 	
 	
-	public void addOrder(Order orderObj) throws Exception {
-		int cflag =0;
+	public User addOrder(Order orderObj) throws Exception {
+		
 		double total =0.0;
 		for(Product prod : orderObj.getProducts()) {
 			System.out.println(prod.getPrice());
@@ -54,7 +56,7 @@ public class OrderService {
 		System.out.println("Total Price = "+ total);
 		orderObj.setTotalPrice(total);
 		
-		this.orderRepository.save(orderObj);
+		
 		Iterable<User> users = this.userRepository.findAll();
 		  for (User u : users) {
 			  if(u.getUsername().equals(orderObj.getName())) {
@@ -64,20 +66,18 @@ public class OrderService {
 					  double balance = u.getWalletBalance() - total;
 					  u.setWalletBalance(balance);
 					  this.userRepository.save(u);
-					  cflag = 1;
-					  break;
+					  return u;
 				  }
 				  else {
 					  throw new Exception("Insufficient balance for user: "+orderObj.getName());
 				  }
 			  }
 		  }
-		  if(cflag ==0) {
-			  throw new Exception("Customer not found");
-		  }
+		  
+		throw new Exception("Customer not found");
 	}
 	
-	public void updateOrder(Order orderObj) {
+	public void updateOrder(Order orderObj) {	
 		this.orderRepository.save(orderObj);
 	}
 	
